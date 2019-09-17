@@ -20,8 +20,8 @@ export default {
     }
   },
   methods: {
-    onGetSchedules: function(slug) {
-      if (typeof(slug) === 'string' && slug !== '') {
+    onGetSchedules: function (slug) {
+      if (typeof (slug) === 'string' && slug !== '') {
         alert(slug)
       }
     }
