@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <PlaceInput/>
+    <div>{{ this.$store.state.schedules }}</div>
   </div>
 </template>
 

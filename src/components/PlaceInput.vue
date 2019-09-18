@@ -11,18 +11,20 @@ import axios from 'axios'
 
 export default {
   name: 'PlaceInput',
-  props: {
-    msg: String
-  },
   data: function () {
     return {
-      slug: ''
+      slug: 'cubalibrespb'
     }
   },
   methods: {
     onGetSchedules: function (slug) {
       if (typeof (slug) === 'string' && slug !== '') {
-        alert(slug)
+        axios
+          .get(`https://tabler.ru/api/v1/places/${slug}`)
+          .then(response => {
+            console.log(response.data.data.place)
+            this.$store.commit('setSchedules', response.data.data.place.schedules)
+          })
       }
     }
   }

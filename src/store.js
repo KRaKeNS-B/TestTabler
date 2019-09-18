@@ -5,10 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    schedules: []
   },
   mutations: {
-
+    setSchedules (state, schedules) {
+      state.schedules = schedules
+    }
   },
   actions: {
 
