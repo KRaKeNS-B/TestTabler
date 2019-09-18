@@ -1,19 +1,38 @@
 <template>
   <div
     class="schedule-card"
-    :class="{'schedule-card__main' : schedule.isMain}"
   >
-    <div class="schedule-card__title">
-      {{schedule.isMain ? workHours : schedule.name}}
-    </div>
-    <div class="schedule-card__state">
-      {{isActive()}}
+    <div
+      class="schedule-card__row"
+      :class="{'schedule-card__main' : schedule.isMain}"
+    >
+      <div
+        class="schedule-card__title"
+      >
+        {{schedule.isMain ? workHours : schedule.name}}
+      </div>
+      <div
+        class="schedule-card__state"
+        :class="{'schedule-card__open' : isActive() === 'открыто'}"
+      >
+        {{isActive()}}
+      </div>
     </div>
     <div
+      class="schedule-card__row"
       v-for="item in uniqueSchedules"
       v-bind:key="item.time"
     >
-      {{item.day + ' ' + item.time}}
+      <div
+        class="schedule-card__day"
+      >
+        {{item.day}}
+      </div>
+      <div
+        class="schedule-card__time"
+      >
+        {{item.time}}
+      </div>
     </div>
   </div>
 </template>
@@ -102,9 +121,73 @@ export default {
         return this.weekdays[days[0] - 1] + ' - ' + this.weekdays[days[days.length - 1] - 1]
       }
       return days.map(el => {
-        return this.weekdays[el-1]
-      }).join(',')
+        return this.weekdays[el - 1]
+      }).join(', ')
     }
   }
 }
 </script>
+
+<style>
+.schedule-card {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+}
+.schedule-card:first-child{
+  border-top: none;
+  margin-top: 0px;
+}
+.schedule-card__row {
+  display: grid;
+  grid-template-areas:
+  "title state";
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-top: 5px;
+}
+.schedule-card__row:first-child{
+  margin-top: 10px;
+}
+.schedule-card__title {
+  color: rgba(0, 0, 0, 0.89);
+}
+.schedule-card__title,
+.schedule-card__day {
+  grid-area: title;
+}
+.schedule-card__main {
+  grid-template-columns: auto 1fr;
+  margin-bottom: 14px;
+  font-size: 18px;
+  line-height: 21px;
+}
+.schedule-card__main.schedule-card__row {
+  margin-top: 0px;
+}
+.schedule-card__state,
+.schedule-card__time {
+  grid-area: state;
+  text-align: right;
+}
+.schedule-card__state::before {
+	content: "";
+	display: inline-block;
+	border-radius: 50%;
+	width: 10px;
+	height: 10px;
+	margin: auto;
+  background-color: #737373;
+}
+.schedule-card__open.schedule-card__state::before {
+  background-color: #EE514A;
+}
+.schedule-card__main .schedule-card__state::before{
+  display: none;
+}
+.schedule-card__main .schedule-card__state {
+  text-align: left;
+}
+.schedule-card__open {
+  color: #EE514A;
+}
+</style>

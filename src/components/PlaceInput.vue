@@ -1,8 +1,22 @@
 <template>
   <div class="place-input">
-    <label for="slug">Слаг заведения</label>
-    <input type="text" v-model="slug" id="slug">
-    <button @click="onGetSchedules(slug)">Обновить</button>
+    <div class="place-input__title">
+      <label for="slug">Слаг заведения</label>
+    </div>
+    <div>
+      <input
+        class="place-input__input"
+        type="text"
+        v-model="slug"
+        id="slug"
+      >
+    </div>
+    <div>
+      <button
+        class="place-input__button"
+        @click="onGetSchedules(slug)"
+      >Обновить</button>
+    </div>
   </div>
 </template>
 
@@ -29,3 +43,30 @@ export default {
   }
 }
 </script>
+
+<style>
+.place-input__input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  border-radius: 3px;
+  width: 300px;
+  height: 30px;
+  padding-left: 10px;
+}
+.place-input__title {
+  margin-bottom: 5px;
+}
+.place-input__button {
+  background: #EE514A;
+  border-radius: 3px;
+  border: none;
+  width: 260px;
+  height: 50px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: #FFFFFF;
+  margin-top: 20px;
+}
+</style>
