@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <PlaceInput/>
-    <div>{{ this.$store.state.schedules }}</div>
+    <Schedules/>
   </div>
 </template>
 
 <script>
 import PlaceInput from './components/PlaceInput.vue'
+import Schedules from './components/Schedules.vue'
 
 export default {
   name: 'app',
   components: {
-    PlaceInput
+    PlaceInput,
+    Schedules
   }
 }
 </script>
