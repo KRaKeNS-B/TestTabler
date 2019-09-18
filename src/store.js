@@ -9,6 +9,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setSchedules (state, schedules) {
+      console.log(schedules)
       state.schedules = schedules
     }
   },

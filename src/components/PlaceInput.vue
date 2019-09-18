@@ -22,7 +22,6 @@ export default {
         axios
           .get(`https://tabler.ru/api/v1/places/${slug}`)
           .then(response => {
-            console.log(response.data.data.place)
             this.$store.commit('setSchedules', response.data.data.place.schedules)
           })
       }
