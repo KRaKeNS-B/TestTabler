@@ -106,7 +106,6 @@ export default {
       day = day === 0 ? 7 : day
       for (let item of this.schedule.items) {
         if (item.dayOfWeek === day) {
-          console.log(day)
           return item
         }
       }
