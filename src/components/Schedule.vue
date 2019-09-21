@@ -92,14 +92,14 @@ export default {
   methods: {
     isActive () {
       let now = Date.now()
-      let item = this.getCurrentDay(new Date().getDay())
+      let { item, nextDay } = this.getCurrentDay(new Date().getDay())
 
       if (item !== false) {
         let oneDayMs = 86400000
         let startAt = this.getFullDateTime(item.startAt)
         let endAt = this.getFullDateTime(item.endAt)
         if (this.checkNextDay(item)) {
-          if (item.nextDay) {
+          if (nextDay) {
             startAt -= oneDayMs
           } else {
             endAt += oneDayMs
@@ -128,14 +128,14 @@ export default {
 
       for (let item of this.schedule.items) {
         if (item.dayOfWeek === day - 1 && this.checkNextDay(item) && this.getFullDateTime(item.endAt) >= now) {
-          item.nextDay = true
-          return item
+          // item.nextDay = true
+          return { item, nextDay: true }
         }
         if (item.dayOfWeek === day) {
-          return item
+          return { item, nextDay: false }
         }
       }
-      return false
+      return { item: false, nextDay: false }
     },
     getFullDateTime (time) {
       return Date.parse(new Date().toDateString() + ' ' + time)
