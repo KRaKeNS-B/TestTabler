@@ -90,9 +90,9 @@ export default {
     }
   },
   methods: {
-    isActive (schedule) {
+    isActive () {
       let now = Date.now()
-      let item = this.getCurrentDay(new Date().getDay(), schedule)
+      let item = this.getCurrentDay(new Date().getDay())
 
       if (item !== false) {
         let oneDayMs = 86400000
@@ -122,11 +122,11 @@ export default {
 
       return false
     },
-    getCurrentDay (day, schedule) {
+    getCurrentDay (day) {
       let now = Date.now()
       day = day === 0 ? 7 : day
 
-      for (let item of schedule.items) {
+      for (let item of this.schedule.items) {
         if (this.checkNextDay(item) && this.getFullDateTime(item.endAt) >= now) {
           item.nextDay = true
           return item
