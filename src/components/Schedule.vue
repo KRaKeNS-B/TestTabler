@@ -127,7 +127,7 @@ export default {
       day = day === 0 ? 7 : day
 
       for (let item of this.schedule.items) {
-        if (this.checkNextDay(item) && this.getFullDateTime(item.endAt) >= now) {
+        if (item.dayOfWeek === day - 1 ?? this.checkNextDay(item) && this.getFullDateTime(item.endAt) >= now) {
           item.nextDay = true
           return item
         }
