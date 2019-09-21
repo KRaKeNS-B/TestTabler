@@ -13,9 +13,9 @@
       </div>
       <div
         class="schedule-card__state"
-        :class="{'schedule-card__open' : isActive() === 'открыто'}"
+        :class="{'schedule-card__open' : isActive(schedule) === 'открыто'}"
       >
-        {{isActive()}}
+        {{isActive(schedule)}}
       </div>
     </div>
     <div
@@ -90,26 +90,51 @@ export default {
     }
   },
   methods: {
-    isActive () {
+    isActive (schedule) {
       let now = Date.now()
-      let item = this.getCurrentDay(new Date().getDay())
+      let item = this.getCurrentDay(new Date().getDay(), schedule)
 
       if (item !== false) {
-        if (this.getFullDateTime(item.startAt) <= now && this.getFullDateTime(item.endAt) >= now) {
+        let oneDayMs = 86400000
+        let startAt = this.getFullDateTime(item.startAt)
+        let endAt = this.getFullDateTime(item.endAt)
+        if (this.checkNextDay(item)) {
+          if (item.nextDay) {
+            startAt -= oneDayMs
+          } else {
+            endAt += oneDayMs
+          }
+        }
+        if (item.startAt === '00:00' && item.endAt === '23:59') {
+          endAt += 60000
+        }
+        if (startAt <= now && endAt >= now) {
           return this.placeState.open
         }
       }
 
       return this.placeState.closed
     },
-    getCurrentDay (day) {
+    checkNextDay ({ startAt, endAt }) {
+      if (endAt.split(':')[0] - startAt.split(':')[0] < 0) {
+        return true
+      }
+
+      return false
+    },
+    getCurrentDay (day, schedule) {
+      let now = Date.now()
       day = day === 0 ? 7 : day
-      for (let item of this.schedule.items) {
+
+      for (let item of schedule.items) {
+        if (this.checkNextDay(item) && this.getFullDateTime(item.endAt) >= now) {
+          item.nextDay = true
+          return item
+        }
         if (item.dayOfWeek === day) {
           return item
         }
       }
-      // Date.parse(new Date().toDateString() + ' ' + '22:00')
       return false
     },
     getFullDateTime (time) {
@@ -169,12 +194,12 @@ export default {
   text-align: right;
 }
 .schedule-card__state::before {
-	content: "";
-	display: inline-block;
-	border-radius: 50%;
-	width: 10px;
-	height: 10px;
-	margin: auto;
+  content: "";
+  display: inline-block;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin: auto;
   background-color: #737373;
 }
 .schedule-card__open.schedule-card__state::before {
